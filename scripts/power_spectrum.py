@@ -7,6 +7,7 @@ import xarray as xr
 
 from detection import fft
 
+
 def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description="Power spectrum analysis using fft along both latitude and longitude")
     parser.add_argument("input", help="the path to the netCDF file to be analyzed")

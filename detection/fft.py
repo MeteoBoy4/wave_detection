@@ -35,6 +35,7 @@ def draw(target, folder=None, plot_name=None, latitude=None, longitude=None, xco
     plt.savefig(ppath)
     plt.close()
 
+
 class FFT(object):
     def __init__(self, var, latitude=None, longitude=None, levels=None, folder=None):
 
