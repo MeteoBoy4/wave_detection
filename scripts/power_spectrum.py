@@ -17,7 +17,7 @@ def main(args=sys.argv[1:]):
 
     target_file = xr.open_dataset(args.input)
     variable = target_file[target_file.keys()[-1]]
-    variable_slice = variable.sel(longitude=np.arange(120, 180), latitude=np.arange(30, 60), time=slice('2005-01-08', '2005-01-11'))
+    variable_slice = variable.sel(longitude=slice(120, 180), latitude=slice(30, 60), time=slice('2005-01-08', '2005-01-11'))
 
     latitude_range = range(30, 60, 1)
     for i, lat in enumerate(latitude_range):
