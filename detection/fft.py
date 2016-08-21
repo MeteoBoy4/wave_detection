@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 def draw_2d_fft(ax, fig, xcood, ycood, var, param_dict={}):
     dmap = ax.contourf(xcood, ycood, var, **param_dict)
     ax.set_ylim(0, max(ycood))
+    ax.set_xlim(-max(xcood)/6., max(xcood)/6.)
     fig.colorbar(dmap, orientation='horizontal')
     return dmap
 
@@ -36,7 +37,7 @@ def draw(target, folder=None, plot_name=None, latitude=None, longitude=None, xco
     plt.close()
 
 
-class FFT(object):
+class FFT2(object):
     def __init__(self, var, latitude=None, longitude=None, levels=None, folder=None):
 
         if len(var.shape) != 2:
@@ -59,10 +60,10 @@ class FFT(object):
         if dim == 'time':
             return 1.  # The sample spacing is one day
         elif dim == 'latitude':
-            return 110.  # The sample spacing between latitude is 110km
+            return 110. * abs(self.var.latitude.data[0] - self.var.latitude.data[1])  # The sample spacing between one latitude is 110km
         elif dim == 'longitude':
             try:
-                return 110. * math.cos(math.radians(self.latitude))  # The sample spacing between longitude
+                return 110. * math.cos(math.radians(self.latitude)) * abs(self.var.longitude.data[0] - self.var.longitude.data[1])  # The sample spacing between longitude
             except TypeError:
                 print('You must provide latitude when calculate zonally')
 
@@ -85,5 +86,3 @@ class FFT(object):
     def draw(self):
         draw(self.shiftized, folder=self.folder, latitude=self.latitude, longitude=self.longitude, xcood=self.xcood,
              ycood=self.ycood, levels=self.levels)
-
-

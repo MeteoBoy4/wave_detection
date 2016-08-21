@@ -21,7 +21,7 @@ def main(args=sys.argv[1:]):
 
     latitude_range = range(30, 60, 1)
     for i, lat in enumerate(latitude_range):
-        fft2 = fft.FFT(variable_slice.sel(latitude=lat), latitude=lat, folder=args.output)
+        fft2 = fft.FFT2(variable_slice.sel(latitude=lat), latitude=lat, folder=args.output)
         if i == 0:
             power = fft2.shiftized
         else:
@@ -32,7 +32,7 @@ def main(args=sys.argv[1:]):
 
     longitude_range = range(120, 160, 1)
     for i, lon in enumerate(longitude_range):
-        fft2 = fft.FFT(variable_slice.sel(longitude=lon), longitude=lon, folder=args.output)
+        fft2 = fft.FFT2(variable_slice.sel(longitude=lon), longitude=lon, folder=args.output)
         if i == 0:
             power = fft2.shiftized
         else:
