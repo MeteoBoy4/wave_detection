@@ -54,26 +54,26 @@ def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
     path_condense = '{0}/condense-latitude{1}.png'.format(folder, latitude)
     path = {'amplitude': path_amplitude, 'angle': path_angle, 'condense': path_condense}
 
-    for keys in target.keys():
-        fig, ax = plt.subplots()
-        ax.plot(xcood, target[keys])
-        plt.savefig(path[keys])
-        plt.close()
+    fig, ax = plt.subplots()
+    ax.plot(xcood, target['amplitude'])
+    ax.set_xlim(-max(xcood)/6., max(xcood)/6.)
+    ax.set_ylim(0, 1.2 * max(target['amplitude']))
+    plt.savefig(path['amplitude'])
+    plt.close()
 
-    # plt.plot(xcood, target['amplitude'])
-    # plt.axis([-max(xcood) / 6., max(xcood) / 6., 0, 1.2 * max(target['amplitude'])])
-    # plt.savefig(path['amplitude'])
-    # plt.close()
+    gravity_wave1 = np.full(len(target['angle']), 90.)
+    gravity_wave2 = np.full(len(target['angle']), -90.)
+    fig, ax = plt.subplots()
+    ax.plot(xcood, target['angle'])
+    ax.plot(xcood, gravity_wave1, linewidth=3.0)
+    ax.plot(xcood, gravity_wave2, linewidth=3.0)
+    plt.savefig(path['angle'])
+    plt.close()
 
-    # plt.plot(xcood, target['angle'])
-    # plt.axis(-max(xcood) / 6., max(xcood) / 6., 0, max(target['angle']))
-    # plt.savefig(path['angle'])
-    # plt.close()
-    #
-    # plt.plot(xcood, target['condense'])
-    # plt.axis(-max(xcood) / 6., max(xcood) / 6., 0, max(target['condense']))
-    # plt.savefig(path['condense'])
-    # plt.close()
+    fig, ax = plt.subplots()
+    ax.plot(xcood, target['condense'])
+    plt.savefig(path['condense'])
+    plt.close()
 
 
 class FFT2(object):
