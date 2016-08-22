@@ -16,6 +16,8 @@ def draw_2d_fft(ax, fig, xcood, ycood, var, param_dict={}):
 
 
 def draw(target, folder=None, plot_name=None, latitude=None, longitude=None, xcood=None, ycood=None, levels=None):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     if latitude and plot_name:
         ppath = '{0}/fft-D-latitude{1}.ps'.format(folder, plot_name)
     elif latitude:
@@ -31,8 +33,6 @@ def draw(target, folder=None, plot_name=None, latitude=None, longitude=None, xco
     else:
         dmap = draw_2d_fft(ax, fig, xcood, ycood, target)
 
-    if not os.path.exists(folder):
-        os.makedirs(folder)
     plt.savefig(ppath)
     plt.close()
 
@@ -43,7 +43,7 @@ def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
     path_amplitude = '{0}/amplitude-latitude{1}.png'.format(folder, latitude)
     path_angle = '{0}/angle-latitude{1}.png'.format(folder, latitude)
     path_condense = '{0}/condense-latitude{1}.png'.format(folder, latitude)
-    path = {'amplitude':path_amplitude, 'angle':path_angle, 'condense':path_condense}
+    path = {'amplitude': path_amplitude, 'angle': path_angle, 'condense': path_condense}
 
     for keys in target.keys():
         fig, ax = plt.subplots()
@@ -65,6 +65,7 @@ def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
     # plt.axis(-max(xcood) / 6., max(xcood) / 6., 0, max(target['condense']))
     # plt.savefig(path['condense'])
     # plt.close()
+
 
 class FFT2(object):
     def __init__(self, var, latitude=None, longitude=None, levels=None, folder=None):
@@ -127,11 +128,11 @@ class CrossSpectrum(object):
 
     @property
     def fft_first(self):
-        return np.fft.fft(self.var1)
+        return np.fft.fftshift(np.fft.fft(self.var1))
 
     @property
     def fft_second(self):
-        return np.fft.fft(self.var2)
+        return np.fft.fftshift(np.fft.fft(self.var2))
 
     def get_sample_spacing(self, dimth):
         dim = self.var1.dims[dimth]
@@ -148,7 +149,7 @@ class CrossSpectrum(object):
     @property
     def xcood(self):
         spacing = self.get_sample_spacing(0)
-        return np.fft.fftfreq(self.width, d=spacing)
+        return np.fft.fftshift(np.fft.fftfreq(self.width, d=spacing))
 
     @property
     def part1(self):
