@@ -7,6 +7,15 @@ import os
 import matplotlib.pyplot as plt
 
 
+def three_smooth(arr):
+    assert len(arr) > 3
+    arrnew = np.zeros(len(arr))
+    arrnew[0] = 0.5 * (arr[0] + arr[1])
+    arrnew[-1] = 0.5 * (arr[-2] + arr[-1])
+    arrnew[1:-2] = 0.25 * arr[0:-3] + 0.5 * arr[1:-2] + 0.25 * arr[2:-1]
+    return arrnew
+
+
 def draw_2d_fft(ax, fig, xcood, ycood, var, param_dict={}):
     dmap = ax.contourf(xcood, ycood, var, **param_dict)
     ax.set_ylim(0, max(ycood))
@@ -155,13 +164,13 @@ class CrossSpectrum(object):
     def part1(self):
         x = self.fft_first
         y = self.fft_second
-        return x.real * y.real + x.imag * y.imag
+        return three_smooth(x.real * y.real + x.imag * y.imag)
 
     @property
     def part2(self):
         x = self.fft_first
         y = self.fft_second
-        return x.imag * y.real - x.real * y.imag
+        return three_smooth(x.imag * y.real - x.real * y.imag)
 
     @property
     def amplitude(self):
@@ -173,7 +182,7 @@ class CrossSpectrum(object):
 
     @property
     def condense(self):
-        return self.amplitude ** 2 / np.abs(self.fft_first) ** 2 / np.abs(self.fft_second) ** 2
+        return self.amplitude ** 2 / three_smooth(np.abs(self.fft_first) ** 2) / three_smooth(np.abs(self.fft_second) ** 2)
 
     def draw(self):
         target = {'amplitude': self.amplitude, 'angle': self.angle, 'condense': self.condense}
