@@ -29,7 +29,7 @@ def main(args=sys.argv[1:]):
     variable_slice = variable.sel(longitude=slice(west_longitude, east_longitude), latitude=slice(north_latitude, south_latitude),
                                   time=slice('2005-01-08', '2005-01-11'))
 
-    latitude_range = range(south_latitude, north_latitude, 1)
+    latitude_range = np.arange(south_latitude, north_latitude, 1)
     for i, lat in enumerate(latitude_range):
         fft2 = fft.FFT2(variable_slice.sel(latitude=lat), latitude=lat, folder=folder_name)
         if i == 0:
@@ -41,7 +41,7 @@ def main(args=sys.argv[1:]):
     fft.draw(target=power, folder=folder_name, latitude=lat,
              plot_name='{0}-{1}mean'.format(latitude_range[0], latitude_range[-1]), xcood=fft2.xcood, ycood=fft2.ycood)
 
-    longitude_range = range(west_longitude, east_longitude, 1)
+    longitude_range = np.arange(west_longitude, east_longitude, 1)
     for i, lon in enumerate(longitude_range):
         fft2 = fft.FFT2(variable_slice.sel(longitude=lon), longitude=lon, folder=folder_name)
         if i == 0:
