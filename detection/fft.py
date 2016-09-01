@@ -56,7 +56,7 @@ def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
 
     fig, ax = plt.subplots()
     ax.plot(xcood, target['amplitude'])
-    ax.set_xlim(-max(xcood)/6., max(xcood)/6.)
+    ax.set_xlim(0., max(xcood)/6.)
     ax.set_ylim(0, 1.2 * max(target['amplitude']))
     plt.savefig(path['amplitude'])
     plt.close()
@@ -67,11 +67,13 @@ def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
     ax.plot(xcood, target['angle'])
     ax.plot(xcood, gravity_wave1, linewidth=3.0)
     ax.plot(xcood, gravity_wave2, linewidth=3.0)
+    ax.set_xlim(0., max(xcood) / 6.)
     plt.savefig(path['angle'])
     plt.close()
 
     fig, ax = plt.subplots()
     ax.plot(xcood, target['condense'])
+    ax.set_xlim(0., max(xcood) / 6.)
     plt.savefig(path['condense'])
     plt.close()
 
