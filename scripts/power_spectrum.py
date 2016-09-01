@@ -27,7 +27,7 @@ def main(args=sys.argv[1:]):
     levels = np.linspace(args.level[0], args.level[1], args.level[2])
     folder_name = args.output + '_lat{0}-{1}_lon{2}-{3}'.format(south_latitude, north_latitude, west_longitude,
                                                                 east_longitude)
-    print(folder_name)
+
     target_file = xr.open_dataset(args.input)
     variable = target_file[target_file.keys()[-1]]
     variable_slice = variable.sel(longitude=slice(west_longitude, east_longitude),
