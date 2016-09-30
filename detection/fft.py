@@ -49,9 +49,14 @@ def draw(target, folder=None, plot_name=None, latitude=None, longitude=None, xco
 def draw_cross(target, folder=None, latitude=None, longitude=None, xcood=None):
     if not os.path.exists(folder):
         os.makedirs(folder)
-    path_amplitude = '{0}/amplitude-latitude{1}.png'.format(folder, latitude)
-    path_angle = '{0}/angle-latitude{1}.png'.format(folder, latitude)
-    path_condense = '{0}/condense-latitude{1}.png'.format(folder, latitude)
+    if latitude:
+        path_amplitude = '{0}/amplitude-latitude{1}.png'.format(folder, latitude)
+        path_angle = '{0}/angle-latitude{1}.png'.format(folder, latitude)
+        path_condense = '{0}/condense-latitude{1}.png'.format(folder, latitude)
+    if longitude:
+        path_amplitude = '{0}/amplitude-longitude{1}.png'.format(folder, longitude)
+        path_angle = '{0}/angle-longitude{1}.png'.format(folder, longitude)
+        path_condense = '{0}/condense-longitude{1}.png'.format(folder, longitude)
     path = {'amplitude': path_amplitude, 'angle': path_angle, 'condense': path_condense}
 
     fig, ax = plt.subplots()
@@ -130,11 +135,12 @@ class FFT2(object):
 
 
 class CrossSpectrum(object):
-    def __init__(self, var1, var2, latitude, folder=None):
+    def __init__(self, var1, var2, latitude=None, longitude=None, folder=None):
         self.var1 = var1
         self.var2 = var2
         self.width = var1.shape[0]
         self.latitude = latitude
+        self.longitude = longitude
         self.folder = folder
 
     @property
@@ -188,4 +194,4 @@ class CrossSpectrum(object):
 
     def draw(self):
         target = {'amplitude': self.amplitude, 'angle': self.angle, 'condense': self.condense}
-        draw_cross(target, folder=self.folder, latitude=self.latitude, xcood=self.xcood)
+        draw_cross(target, folder=self.folder, latitude=self.latitude, longitude=self.longitude, xcood=self.xcood)
