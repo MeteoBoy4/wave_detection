@@ -45,6 +45,12 @@ def main(args=sys.argv[1:]):
                                   folder=folder_name)
         cross.draw()
 
+    longitude_range = np.arange(west_longitude, east_longitude, 1)
+    for lon in longitude_range:
+        cross = fft.CrossSpectrum(div_slice.sel(longitude=lon), vort_slice.sel(longitude=lon), longitude=lon,
+                                  folder=folder_name)
+        cross.draw()
+
 
 if __name__ == '__main__':
     main()
